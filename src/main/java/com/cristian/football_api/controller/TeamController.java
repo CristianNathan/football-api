@@ -1,12 +1,34 @@
 package com.cristian.football_api.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.cristian.football_api.model.Team;
+import com.cristian.football_api.repository.TeamRepository;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
+@RequestMapping("/teams")
 public class TeamController {
-    @GetMapping("/test")
-    public String test(){
-        return "API fucionando";
+    private final TeamRepository teamRepository;
+    public TeamController(TeamRepository teamRepository){
+        this.teamRepository=teamRepository;
     }
+    @PostMapping
+    public Team salvar(@RequestBody Team team){
+        return teamRepository.save(team);
+    }
+    @GetMapping
+    public List<Team> listar(){
+        return teamRepository.findAll();
+    }
+    @GetMapping("/{id}")
+    public Team buscarPorId(@PathVariable Long id){
+        return teamRepository.findById(id).orElseThrow(()-> new RuntimeException("Time não encontrado"));
+    }
+    @DeleteMapping("/{id}")
+    public void deletar(@PathVariable Long id){
+            teamRepository.deleteById(id);
+    }
+
+
 }
