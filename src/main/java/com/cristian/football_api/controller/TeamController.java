@@ -2,6 +2,7 @@ package com.cristian.football_api.controller;
 
 import com.cristian.football_api.model.Team;
 import com.cristian.football_api.repository.TeamRepository;
+import com.cristian.football_api.service.TeamService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -9,25 +10,25 @@ import java.util.List;
 @RestController
 @RequestMapping("/teams")
 public class TeamController {
-    private final TeamRepository teamRepository;
-    public TeamController(TeamRepository teamRepository){
-        this.teamRepository=teamRepository;
+    private final TeamService teamService;
+    public TeamController(TeamService teamService){
+        this.teamService=teamService;
     }
     @PostMapping
     public Team salvar(@RequestBody Team team){
-        return teamRepository.save(team);
+        return teamService.salvar(team);
     }
     @GetMapping
     public List<Team> listar(){
-        return teamRepository.findAll();
+        return teamService.listar();
     }
     @GetMapping("/{id}")
     public Team buscarPorId(@PathVariable Long id){
-        return teamRepository.findById(id).orElseThrow(()-> new RuntimeException("Time não encontrado"));
+        return teamService.buscarPorId(id);
     }
     @DeleteMapping("/{id}")
     public void deletar(@PathVariable Long id){
-            teamRepository.deleteById(id);
+            teamService.deletar(id);
     }
 
 
