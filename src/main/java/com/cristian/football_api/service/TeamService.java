@@ -28,4 +28,16 @@ public class TeamService {
     public void deletar(Long id){
         teamRepository.deleteById(id);
     }
+    public Team atualizar(Long id, Team teamAtualizado) {
+
+        Team teamExistente = teamRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Time não encontrado"));
+
+        teamExistente.setNome(teamAtualizado.getNome());
+        teamExistente.setCidade(teamAtualizado.getCidade());
+        teamExistente.setEstadio(teamAtualizado.getEstadio());
+
+        return teamRepository.save(teamExistente);
+    }
+
 }

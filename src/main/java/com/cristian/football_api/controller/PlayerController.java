@@ -35,6 +35,11 @@ public class PlayerController {
     public void deletar(@PathVariable Long id) {
         playerService.deletar(id);
     }
+    @PutMapping("/{id}")
+    public Player atualizar(@PathVariable Long id,@RequestBody Player player){
+        return playerService.atualizar(id, player);
+    }
+
 }
 
 
