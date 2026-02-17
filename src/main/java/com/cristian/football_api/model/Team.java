@@ -1,9 +1,9 @@
 package com.cristian.football_api.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 public class Team {
@@ -14,6 +14,11 @@ public class Team {
     private String nome;
     private String cidade;
     private String estadio;
+    @OneToMany(mappedBy = "team")
+    @JsonIgnoreProperties("team")
+    private List<Player> players;
+
+
 
     public Team(){
 
