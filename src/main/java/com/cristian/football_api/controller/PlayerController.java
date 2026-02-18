@@ -39,6 +39,14 @@ public class PlayerController {
     public Player atualizar(@PathVariable Long id,@RequestBody Player player){
         return playerService.atualizar(id, player);
     }
+    @GetMapping("/posicao/{posicao}")
+    public List<Player> buscarPorPosicao(@PathVariable String posicao){
+        return playerService.buscarPorPosicao(posicao);
+    }
+    @GetMapping("/nome/{nome}")
+    public List<Player> buscarPorNome(@PathVariable String nome){
+        return playerService.buscarPorNome(nome);
+    }
 
 }
 

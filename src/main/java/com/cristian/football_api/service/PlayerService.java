@@ -42,6 +42,13 @@ public class PlayerService {
         }
         return playerRepository.save(jogadorExistente);
     }
+    public List<Player> buscarPorPosicao(String posicao){
+        return playerRepository.findByPosicao(posicao);
+    }
+    public List<Player> buscarPorNome(String nome){
+        return playerRepository.findByNomeContaining(nome);
+    }
+
 
 
 
