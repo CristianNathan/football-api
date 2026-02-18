@@ -2,6 +2,8 @@ package com.cristian.football_api.controller;
 
 import com.cristian.football_api.model.Player;
 import com.cristian.football_api.service.PlayerService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,8 +24,8 @@ public class PlayerController {
     }
 
     @GetMapping
-    public List<Player> listar(){
-        return playerService.listar();
+    public Page<Player> listar(Pageable pageable){
+        return playerService.listarComPaginacao(pageable);
     }
 
     @GetMapping("/{id}")
@@ -47,6 +49,7 @@ public class PlayerController {
     public List<Player> buscarPorNome(@PathVariable String nome){
         return playerService.buscarPorNome(nome);
     }
+
 
 }
 

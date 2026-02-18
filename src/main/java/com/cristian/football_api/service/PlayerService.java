@@ -4,6 +4,9 @@ import com.cristian.football_api.model.Player;
 import com.cristian.football_api.model.Team;
 import com.cristian.football_api.repository.PlayerRepository;
 import com.cristian.football_api.repository.TeamRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -47,6 +50,9 @@ public class PlayerService {
     }
     public List<Player> buscarPorNome(String nome){
         return playerRepository.findByNomeContaining(nome);
+    }
+    public Page<Player> listarComPaginacao(Pageable pageable){
+        return playerRepository.findAll(pageable);
     }
 
 
