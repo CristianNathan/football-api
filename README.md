@@ -14,6 +14,7 @@ O projeto permite cadastrar, listar, atualizar e remover jogadores e times, alé
 - PostgreSQL
 - Hibernate
 - Maven
+- Postman
 
 ---
 
@@ -52,6 +53,19 @@ GET /players/nome/Yuri
 
 ### Listar com ordenação
 GET /players?page=0&size=10&sort=nome,asc
+
+---
+🧪 Testes
+
+### Os endpoints foram testados utilizando Postman para validação de:
+
+### Requisições GET, POST, PUT e DELETE
+
+### Paginação
+
+### Filtros por nome e posição
+
+### Ordenação dinâmica
 
 ---
 
