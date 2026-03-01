@@ -1,7 +1,10 @@
 package com.cristian.football_api.controller;
 
+import com.cristian.football_api.dto.PlayerRequestDTO;
+import com.cristian.football_api.dto.PlayerResponseDTO;
 import com.cristian.football_api.model.Player;
 import com.cristian.football_api.service.PlayerService;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
@@ -14,13 +17,14 @@ public class PlayerController {
 
     private final PlayerService playerService;
 
+
     public PlayerController(PlayerService playerService){
         this.playerService = playerService;
     }
 
     @PostMapping
-    public Player salvar(@RequestBody Player player){
-        return playerService.salvar(player);
+    public PlayerResponseDTO salvar(@Valid @RequestBody PlayerRequestDTO dto){
+        return playerService.salvar(dto);
     }
 
     @GetMapping

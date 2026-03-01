@@ -1,12 +1,13 @@
 package com.cristian.football_api.service;
 
+import com.cristian.football_api.dto.PlayerRequestDTO;
+import com.cristian.football_api.dto.PlayerResponseDTO;
 import com.cristian.football_api.model.Player;
 import com.cristian.football_api.model.Team;
 import com.cristian.football_api.repository.PlayerRepository;
 import com.cristian.football_api.repository.TeamRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,8 +21,25 @@ public class PlayerService {
         this.playerRepository=playerRepository;
         this.teamRepository = teamRepository;
     }
-    public Player salvar (Player player){
-        return playerRepository.save(player);
+    public PlayerResponseDTO salvar (PlayerRequestDTO dto){
+        Team team = teamRepository.findById(dto.getTeamId())
+                .orElseThrow(() -> new RuntimeException("Time não encontrado"));
+        Player player = new Player();
+        player.setNome(dto.getNome());
+        player.setNumero(dto.getNumero());
+        player.setPosicao(dto.getPosicao());
+        player.setTeam(team);
+        Player salvo = playerRepository.save(player);
+
+        return new PlayerResponseDTO(
+                salvo.getId(),
+                salvo.getNome(),
+                salvo.getNumero(),
+                salvo.getPosicao(),
+                salvo.getTeam().getNome()
+        );
+
+
     }
     public List<Player> listar(){
         return playerRepository.findAll();
