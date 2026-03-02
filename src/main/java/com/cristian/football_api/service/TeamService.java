@@ -1,5 +1,6 @@
 package com.cristian.football_api.service;
 
+import com.cristian.football_api.exception.TimeNaoEncontradoException;
 import com.cristian.football_api.model.Team;
 import com.cristian.football_api.repository.PlayerRepository;
 import com.cristian.football_api.repository.TeamRepository;
@@ -23,7 +24,7 @@ public class TeamService {
 
     }
     public Team buscarPorId(Long id){
-        return teamRepository.findById(id).orElseThrow(()-> new RuntimeException("Time não encontrado"));
+        return teamRepository.findById(id).orElseThrow(()-> new TimeNaoEncontradoException("Time não encontrado"));
     }
     public void deletar(Long id){
         teamRepository.deleteById(id);
@@ -31,7 +32,7 @@ public class TeamService {
     public Team atualizar(Long id, Team teamAtualizado) {
 
         Team teamExistente = teamRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Time não encontrado"));
+                .orElseThrow(() -> new TimeNaoEncontradoException("Time não encontrado"));
 
         teamExistente.setNome(teamAtualizado.getNome());
         teamExistente.setCidade(teamAtualizado.getCidade());

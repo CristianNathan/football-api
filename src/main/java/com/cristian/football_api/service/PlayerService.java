@@ -2,6 +2,8 @@ package com.cristian.football_api.service;
 
 import com.cristian.football_api.dto.PlayerRequestDTO;
 import com.cristian.football_api.dto.PlayerResponseDTO;
+import com.cristian.football_api.exception.JogadorNaoEncontradoException;
+import com.cristian.football_api.exception.TimeNaoEncontradoException;
 import com.cristian.football_api.model.Player;
 import com.cristian.football_api.model.Team;
 import com.cristian.football_api.repository.PlayerRepository;
@@ -23,7 +25,7 @@ public class PlayerService {
     }
     public PlayerResponseDTO salvar (PlayerRequestDTO dto){
         Team team = teamRepository.findById(dto.getTeamId())
-                .orElseThrow(() -> new RuntimeException("Time não encontrado"));
+                .orElseThrow(() -> new TimeNaoEncontradoException("Time não encontrado"));
         Player player = new Player();
         player.setNome(dto.getNome());
         player.setNumero(dto.getNumero());
@@ -45,20 +47,20 @@ public class PlayerService {
         return playerRepository.findAll();
     }
     public Player buscarPorId(Long id){
-        return playerRepository.findById(id).orElseThrow(() -> new RuntimeException("Jogador não encontrado "));
+        return playerRepository.findById(id).orElseThrow(() -> new JogadorNaoEncontradoException("Jogador não encontrado "));
     }
     public void deletar(Long id){
         playerRepository.deleteById(id);
     }
     public Player atualizar(Long id,Player playerAtualizado){
-        Player jogadorExistente = playerRepository.findById(id).orElseThrow(()-> new RuntimeException("Jogador não encontrado"));
+        Player jogadorExistente = playerRepository.findById(id).orElseThrow(()-> new JogadorNaoEncontradoException("Jogador não encontrado"));
         jogadorExistente.setNome(playerAtualizado.getNome());
         jogadorExistente.setNumero(playerAtualizado.getNumero());
         jogadorExistente.setPosicao(playerAtualizado.getPosicao());
         if(playerAtualizado.getTeam()!=null){
             Long teamId = playerAtualizado.getTeam().getId();
 
-            Team team = teamRepository.findById(teamId).orElseThrow(()->new RuntimeException("Time não encontrado"));
+            Team team = teamRepository.findById(teamId).orElseThrow(()->new TimeNaoEncontradoException("Time não encontrado"));
             jogadorExistente.setTeam(team);
         }
         return playerRepository.save(jogadorExistente);
