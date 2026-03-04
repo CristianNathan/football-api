@@ -24,6 +24,11 @@ public class User implements UserDetails {
     public User(){
 
     }
+    public User(String login, String senha,UserRole role){
+        this.login =login;
+        this.senha =senha;
+        this.role=role;
+    }
 
     public User(String id, String login, String senha, UserRole role) {
         this.id = id;
@@ -67,12 +72,12 @@ public class User implements UserDetails {
 
     @Override
     public @Nullable String getPassword() {
-        return "";
+        return this.senha;
     }
 
     @Override
     public String getUsername() {
-        return "";
+        return this.login;
     }
 
     @Override
