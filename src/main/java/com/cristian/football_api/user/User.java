@@ -15,7 +15,7 @@ import java.util.Objects;
 
 public class User implements UserDetails {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
     private String login;
     private String senha;
