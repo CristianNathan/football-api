@@ -1,7 +1,9 @@
 package com.cristian.football_api.controller;
 
+import com.cristian.football_api.infra.security.TokenService;
 import com.cristian.football_api.repository.UserRepository;
 import com.cristian.football_api.user.AuthenticationDTO;
+import com.cristian.football_api.user.LoginResponseDTO;
 import com.cristian.football_api.user.RegisterDTO;
 import com.cristian.football_api.user.User;
 import jakarta.validation.Valid;
@@ -10,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,12 +24,17 @@ public class AuthenticationController {
     private AuthenticationManager authenticationManager;
     @Autowired
     private UserRepository repository;
+    @Autowired
+    private TokenService tokenService;
+
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody @Valid AuthenticationDTO data){
          var usernamePassword = new UsernamePasswordAuthenticationToken(data.login(), data.senha());
          var auth = this.authenticationManager.authenticate(usernamePassword);
 
-         return ResponseEntity.ok().build();
+         var token = tokenService.generateToken((User) auth.getPrincipal());
+
+         return ResponseEntity.ok(new LoginResponseDTO(token));
     }
     @PostMapping("/register")
     public ResponseEntity register(@RequestBody @Valid RegisterDTO data){
